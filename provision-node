@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# Install NodeJS via nvm
+
+set -e
+set -x
+
+function install_nvm() {
+  # https://github.com/creationix/nvm
+  wget -qO- --progress=bar:force https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  source ~/.nvm/nvm.sh
+}
+
+function install_node() {
+  # install latest NodeJS in 4.2.x
+  nvm install 4.2 &> /dev/null
+  nvm use 4.2
+}
+
+function install_node_mongodb() {
+  # install latest NodeJS MongoDB library in 2.1.x
+  npm install mongodb@2.1 --save
+}
+
+function install_node_express() {
+  # install latest NodeJS Express in 4.13.x
+  npm install express@4.13 --save
+}
+
+install_nvm
+install_node
+install_node_mongodb
+install_node_express
+echo "DONE INSTALLING NODEJS"

@@ -20,5 +20,6 @@ Vagrant.configure("2") do |config|
     server.vm.hostname = "m101js.mongodb.university"
     server.vm.network :private_network, ip: "192.168.103.100"
     server.vm.provision :shell, path: "provision-mongod", args: ENV['ARGS']
+    server.vm.provision :shell, path: "provision-node", args: ENV['ARGS'], privileged: false
   end
 end
