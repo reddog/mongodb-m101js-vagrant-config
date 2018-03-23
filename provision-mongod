@@ -34,10 +34,8 @@ function user_setup(){
   mkdir -p /home/vagrant/data
   chmod -R 777 /home/vagrant/data
   chown -R vagrant:vagrant /home/vagrant/data
-  mkdir -p /var/m103/validation
   echo "Set LC_ALL=C to .profile"
   sudo echo "export LC_ALL=C" >> /home/vagrant/.profile
-  sudo echo "PATH=$PATH:/var/m103/validation" >> /home/vagrant/.profile
 }
 
 function update_repo(){
@@ -62,22 +60,13 @@ function config(){
 }
 
 function download_dataset() {
-  echo "Downloading Dataset"
-  curl https://s3.amazonaws.com/edu-static.mongodb.com/lessons/M103/products.json.tgz -o products.json.tgz
-  tar -xzvf products.json.tgz -C /dataset
-  rm -rf products.json.tgz
+  # nothing to do here
+  :
 }
 
 function download_validators() {
-  echo "Downloading Validation Scripts"
-  curl https://s3.amazonaws.com/edu-static.mongodb.com/lessons/M103/m103_validation.tgz -o m103_validation.tgz
-  tar -xzvf m103_validation.tgz  -C /var/m103/validation
-  rm -rf m103_validation.tgz
-  echo "#!/bin/bash
-        echo -n 'm103 rocks' | openssl sha256 | sed -e s/\(stdin\)=.//" > /var/m103/validation/validate_box
-  chmod -R +x /var/m103/validation/
-  chown root:root /var/m103/validation
-  echo "Done: Downloaded Validation Scripts"
+  # nothing to do here
+  :
 }
 
 function data_path() {
@@ -90,12 +79,38 @@ function install_pymongo() {
   sudo pip install pymongo
 }
 
+function install_nvm() {
+  # https://github.com/creationix/nvm
+  wget -qO- --progress=bar:force https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+  source ~/.nvm/nvm.sh
+}
+
+function install_node() {
+  # install latest NodeJS in 4.2.x
+  nvm install 4.2.6
+  nvm use 4.2.6
+}
+
+function install_node_mongodb() {
+  # install latest NodeJS MongoDB library in 2.1.x
+  npm install mongodb@2.1 --save
+}
+
+function install_node_express() {
+  # install latest NodeJS Express in 4.13.x
+  npm install express@4.13 --save
+}
+
 config
 update_repo
 install_mongod
 user_setup
 data_path
 install_pymongo
+install_nvm
+install_node
+install_node_mongodb
+install_node_express
 download_dataset
 download_validators
 echo "DONE"
