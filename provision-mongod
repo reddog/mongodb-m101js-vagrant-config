@@ -73,7 +73,7 @@ function data_path() {
 }
 
 function start_mongod() {
-  service mongodb start
+  service mongod start
 }
 
 function install_pymongo() {
