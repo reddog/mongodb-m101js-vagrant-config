@@ -55,8 +55,6 @@ function config(){
   # disable THP
   echo -e "never" > /sys/kernel/mm/transparent_hugepage/enabled
   echo -e "never" > /sys/kernel/mm/transparent_hugepage/defrag
-  # disable mongod upstart service
-  echo 'manual' | sudo tee /etc/init/mongod.override
 }
 
 function download_dataset() {
@@ -72,6 +70,10 @@ function download_validators() {
 function data_path() {
   sudo mkdir -p /data
   sudo chown -R vagrant:vagrant /data
+}
+
+function start_mongod() {
+  service mongodb start
 }
 
 function install_pymongo() {
@@ -106,6 +108,7 @@ update_repo
 install_mongod
 user_setup
 data_path
+start_mongod
 install_pymongo
 install_nvm
 install_node
