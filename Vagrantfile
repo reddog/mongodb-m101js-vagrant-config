@@ -13,9 +13,9 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "mongod-m101js" do |server|
     server.vm.provider "virtualbox" do |vb|
-	     vb.customize ["modifyvm", :id, "--cpus", "2"]
+	     vb.customize ["modifyvm", :id, "--cpus", "1"]
        vb.name = "mongod-m101js"
-       vb.memory = 2048
+       vb.memory = 1024
     end
     server.vm.hostname = "m101js.mongodb.university"
     server.vm.network :private_network, ip: "192.168.103.100"
